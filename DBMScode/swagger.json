@@ -1,0 +1,1130 @@
+swagger: '2.0'
+info:
+  title: Market Management API
+  description: API documentation
+  termsOfService: https://www.google.com/policies/terms/
+  contact:
+    email: celikog21@itu.edu.tr
+  license:
+    name: BSD License
+  version: v1
+host: 127.0.0.1:8000
+schemes:
+- http
+basePath: /api
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /_queries/calculate-total-spendings:
+    put:
+      operationId: _queries_calculate-total-spendings_update
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - _queries
+    parameters: []
+  /_queries/customer_transactions/{customer_id}/:
+    get:
+      operationId: _queries_customer_transactions_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - _queries
+    parameters:
+    - name: customer_id
+      in: path
+      required: true
+      type: string
+  /_queries/customers-purchased-between-dates:
+    get:
+      operationId: _queries_customers-purchased-between-dates_list
+      description: ''
+      parameters:
+      - name: start_date
+        in: query
+        description: Start date of the transaction range (YYYY-MM-DD)
+        type: string
+      - name: end_date
+        in: query
+        description: End date of the transaction range (YYYY-MM-DD)
+        type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - _queries
+    parameters: []
+  /_queries/employees_in_branch/{market_id}/:
+    get:
+      operationId: _queries_employees_in_branch_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - _queries
+    parameters:
+    - name: market_id
+      in: path
+      required: true
+      type: string
+  /_queries/low-stock-products/{market_id}/:
+    get:
+      operationId: _queries_low-stock-products_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - _queries
+    parameters:
+    - name: market_id
+      in: path
+      required: true
+      type: string
+  /_queries/products-under-category/{category_id}/:
+    get:
+      operationId: _queries_products-under-category_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - _queries
+    parameters:
+    - name: category_id
+      in: path
+      required: true
+      type: string
+  /_queries/products-with-promotions:
+    get:
+      operationId: _queries_products-with-promotions_list
+      description: ''
+      parameters:
+      - name: category_id
+        in: query
+        description: Category ID to check promotions
+        required: true
+        type: integer
+      - name: date
+        in: query
+        description: Date to check promotions (YYYY-MM-DD)
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Validation Error
+        '404':
+          description: No promotions found
+      tags:
+      - _queries
+    parameters: []
+  /_queries/top-budget/{n}/:
+    get:
+      operationId: _queries_top-budget_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - _queries
+    parameters:
+    - name: n
+      in: path
+      required: true
+      type: string
+  /_queries/total-salaries:
+    get:
+      operationId: _queries_total-salaries_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - _queries
+    parameters: []
+  /api/token/:
+    post:
+      operationId: api_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/TokenObtainPair'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/TokenObtainPair'
+      tags:
+      - api
+    parameters: []
+  /api/token/refresh/:
+    post:
+      operationId: api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/TokenRefresh'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/TokenRefresh'
+      tags:
+      - api
+    parameters: []
+  /categories/:
+    get:
+      operationId: categories_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - categories
+    post:
+      operationId: categories_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required: []
+          type: object
+          properties:
+            parent_id:
+              description: Parent category ID
+              type: integer
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation Error
+      tags:
+      - categories
+    parameters: []
+  /categories/{category_id}/:
+    put:
+      operationId: categories_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required: []
+          type: object
+          properties:
+            parent_id:
+              description: Parent category ID
+              type: integer
+      responses:
+        '200':
+          description: Updated Successfully
+        '400':
+          description: Validation Error
+        '404':
+          description: Category not found
+      tags:
+      - categories
+    delete:
+      operationId: categories_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - categories
+    parameters:
+    - name: category_id
+      in: path
+      required: true
+      type: string
+  /customers/:
+    get:
+      operationId: customers_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - customers
+    post:
+      operationId: customers_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          type: object
+          properties:
+            name:
+              description: Name of the customer
+              type: string
+      responses:
+        '201':
+          description: ''
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              name:
+                type: string
+        '400':
+          description: Validation error
+      tags:
+      - customers
+    parameters: []
+  /customers/{customer_id}/:
+    put:
+      operationId: customers_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          type: object
+          properties:
+            name:
+              description: Name of the customer
+              type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              name:
+                type: string
+        '400':
+          description: Validation error
+        '404':
+          description: Customer not found
+      tags:
+      - customers
+    delete:
+      operationId: customers_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - customers
+    parameters:
+    - name: customer_id
+      in: path
+      required: true
+      type: string
+  /employees/:
+    get:
+      operationId: employees_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - employees
+    post:
+      operationId: employees_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          - branch
+          - profession
+          type: object
+          properties:
+            name:
+              description: Name of the employee
+              type: string
+            branch:
+              description: Branch ID (Market ID)
+              type: integer
+            profession:
+              description: Profession ID
+              type: integer
+            manager:
+              description: Manager ID (optional)
+              type: integer
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation Error
+      tags:
+      - employees
+    parameters: []
+  /employees/{employee_id}/:
+    put:
+      operationId: employees_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          - branch
+          - profession
+          type: object
+          properties:
+            name:
+              description: Name of the employee
+              type: string
+            branch:
+              description: Branch ID (Market ID)
+              type: integer
+            profession:
+              description: Profession ID
+              type: integer
+            manager:
+              description: Manager ID
+              type: integer
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Validation error
+        '404':
+          description: Employee not found
+      tags:
+      - employees
+    delete:
+      operationId: employees_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - employees
+    parameters:
+    - name: employee_id
+      in: path
+      required: true
+      type: string
+  /login/:
+    post:
+      operationId: login_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - username
+          - password
+          type: object
+          properties:
+            username:
+              description: Username of the user
+              type: string
+            password:
+              description: Password of the user
+              type: string
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Invalid credentials
+      tags:
+      - login
+    parameters: []
+  /logout/:
+    post:
+      operationId: logout_create
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: Logout successful
+        '400':
+          description: Error while logging out
+      tags:
+      - logout
+    parameters: []
+  /marketbranches/:
+    get:
+      operationId: marketbranches_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - marketbranches
+    post:
+      operationId: marketbranches_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - budget
+          - location
+          type: object
+          properties:
+            budget:
+              description: Budget of the branch
+              type: integer
+            location:
+              description: Location of the branch
+              type: string
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation Error
+      tags:
+      - marketbranches
+    parameters: []
+  /marketbranches/{market_id}/:
+    put:
+      operationId: marketbranches_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - budget
+          - location
+          type: object
+          properties:
+            budget:
+              description: Budget of the branch
+              type: integer
+            location:
+              description: Location of the branch
+              type: string
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Validation error
+        '404':
+          description: Market branch not found
+      tags:
+      - marketbranches
+    delete:
+      operationId: marketbranches_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - marketbranches
+    parameters:
+    - name: market_id
+      in: path
+      required: true
+      type: string
+  /products/:
+    get:
+      operationId: products_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - products
+    post:
+      operationId: products_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          - category
+          - price
+          - shelf_life
+          type: object
+          properties:
+            name:
+              description: Product name
+              type: string
+            price:
+              description: Price
+              type: integer
+            category:
+              description: Category ID
+              type: integer
+            lower_stock_alert:
+              description: Stock alert level
+              type: integer
+            shelf_life:
+              description: Shelf life in days
+              type: integer
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation Error
+      tags:
+      - products
+    parameters: []
+  /products/{product_id}/:
+    put:
+      operationId: products_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          - category
+          - shelf_life
+          type: object
+          properties:
+            name:
+              description: Product name
+              type: string
+            price:
+              description: Price
+              type: integer
+            category:
+              description: Category ID
+              type: integer
+            lower_stock_alert:
+              description: Stock alert level
+              type: integer
+            shelf_life:
+              description: Shelf life in days
+              type: integer
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Validation error
+        '404':
+          description: Product not found
+      tags:
+      - products
+    delete:
+      operationId: products_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - products
+    parameters:
+    - name: product_id
+      in: path
+      required: true
+      type: string
+  /professions/:
+    get:
+      operationId: professions_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - professions
+    post:
+      operationId: professions_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          - salary
+          type: object
+          properties:
+            name:
+              description: Name of the profession
+              type: string
+            salary:
+              description: Salary of the profession
+              type: integer
+      responses:
+        '201':
+          description: ''
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              name:
+                type: string
+              salary:
+                type: integer
+        '400':
+          description: Validation error
+      tags:
+      - professions
+    parameters: []
+  /professions/{profession_id}/:
+    put:
+      operationId: professions_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          - salary
+          type: object
+          properties:
+            name:
+              description: Name of the profession
+              type: string
+            salary:
+              description: Salary of the profession
+              type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              name:
+                type: string
+              salary:
+                type: integer
+        '400':
+          description: Validation error
+        '404':
+          description: Profession not found
+      tags:
+      - professions
+    delete:
+      operationId: professions_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - professions
+    parameters:
+    - name: profession_id
+      in: path
+      required: true
+      type: string
+  /promotions/:
+    get:
+      operationId: promotions_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - promotions
+    post:
+      operationId: promotions_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - category_id
+          - percentage
+          - start_date
+          type: object
+          properties:
+            category_id:
+              description: Category ID
+              type: integer
+            percentage:
+              description: Discount percentage
+              type: integer
+            start_date:
+              description: Promotion start date
+              type: date
+            end_date:
+              description: Promotion end date
+              type: date
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation Error
+      tags:
+      - promotions
+    parameters: []
+  /promotions/{promotion_id}/:
+    put:
+      operationId: promotions_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - category_id
+          - percentage
+          - start_date
+          type: object
+          properties:
+            category_id:
+              description: Category ID
+              type: integer
+            percentage:
+              description: Discount percentage
+              type: integer
+            start_date:
+              description: Promotion start date
+              type: date
+            end_date:
+              description: Promotion end date
+              type: date
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Validation Error
+        '404':
+          description: Not Found
+      tags:
+      - promotions
+    delete:
+      operationId: promotions_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - promotions
+    parameters:
+    - name: promotion_id
+      in: path
+      required: true
+      type: string
+  /register/:
+    post:
+      operationId: register_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - username
+          - password
+          - email
+          type: object
+          properties:
+            username:
+              description: Username for the user
+              type: string
+            password:
+              description: Password for the user
+              type: string
+            email:
+              description: Email address of the user
+              type: string
+      responses:
+        '201':
+          description: Registration successful
+        '400':
+          description: Validation error
+        '500':
+          description: Internal server error
+      tags:
+      - register
+    parameters: []
+  /stocks/:
+    get:
+      operationId: stocks_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - stocks
+    post:
+      operationId: stocks_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - product_id
+          - market_id
+          - expiry_date
+          - amount
+          type: object
+          properties:
+            product_id:
+              description: Product ID
+              type: integer
+            market_id:
+              description: Market ID
+              type: integer
+            expiry_date:
+              description: Expiry date (YYYY-MM-DD)
+              type: string
+              format: date
+            amount:
+              description: Stock amount
+              type: integer
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation Error
+      tags:
+      - stocks
+    parameters: []
+  /stocks/{stock_id}/:
+    put:
+      operationId: stocks_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - product_id
+          - market_id
+          - expiry_date
+          - amount
+          type: object
+          properties:
+            product_id:
+              description: Product ID
+              type: integer
+            market_id:
+              description: Market ID
+              type: integer
+            expiry_date:
+              description: Expiry date (YYYY-MM-DD)
+              type: string
+              format: date
+            amount:
+              description: Stock amount
+              type: integer
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Validation error
+        '404':
+          description: Stock entry not found
+      tags:
+      - stocks
+    delete:
+      operationId: stocks_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - stocks
+    parameters:
+    - name: stock_id
+      in: path
+      required: true
+      type: string
+  /transactions/:
+    get:
+      operationId: transactions_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - transactions
+    post:
+      operationId: transactions_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - customer_id
+          - product_id
+          - branch_id
+          type: object
+          properties:
+            customer_id:
+              description: Customer ID
+              type: integer
+            product_id:
+              description: Product ID
+              type: integer
+            branch_id:
+              description: Branch ID
+              type: integer
+            order_date:
+              description: Order Date
+              type: date
+            amount:
+              description: Quantity
+              type: integer
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation Error
+      tags:
+      - transactions
+    parameters: []
+  /transactions/{transaction_id}/:
+    put:
+      operationId: transactions_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - customer_id
+          - product_id
+          - branch_id
+          type: object
+          properties:
+            customer_id:
+              description: Customer ID
+              type: integer
+            product_id:
+              description: Product ID
+              type: integer
+            branch_id:
+              description: Branch ID
+              type: integer
+            order_date:
+              description: Order Date
+              type: date
+            amount:
+              description: Quantity
+              type: integer
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Validation Error
+        '404':
+          description: Not Found
+      tags:
+      - transactions
+    delete:
+      operationId: transactions_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - transactions
+    parameters:
+    - name: transaction_id
+      in: path
+      required: true
+      type: string
+definitions:
+  TokenObtainPair:
+    required:
+    - username
+    - password
+    type: object
+    properties:
+      username:
+        title: Username
+        type: string
+        minLength: 1
+      password:
+        title: Password
+        type: string
+        minLength: 1
+  TokenRefresh:
+    required:
+    - refresh
+    type: object
+    properties:
+      refresh:
+        title: Refresh
+        type: string
+        minLength: 1
+      access:
+        title: Access
+        type: string
+        readOnly: true
+        minLength: 1
